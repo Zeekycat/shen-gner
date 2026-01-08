@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SHEIN Codes - Claim Your $1000</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      min-height: 100vh;
+      background: #fbe5c6;
+      overflow-x: hidden;
+      user-select: none;
+    }
+
+    /* Canvas Background */
+    #particles-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: auto;
+    }
+
+    /* Main Container */
+    .container {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      position: relative;
+      z-index: 10;
+    }
+
+    /* Reward Card */
+    .reward-card {
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 24px;
+      padding: 16px;
+      position: relative;
+      z-index: 10;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(244, 86, 70, 0.2);
+      max-width: 450px;
+      width: 100%;
+      box-shadow: 0 10px 30px rgba(244, 86, 70, 0.1), 0 1px 8px rgba(244, 86, 70, 0.2);
+      animation: float 3s ease-in-out infinite;
+    }
+
+    /* Logo Section */
+    .logo-section {
+      text-align: center;
+      margin-bottom: 8px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid rgba(244, 86, 70, 0.1);
+    }
+
+    .logo-img {
+      width: 80px;
+      height: auto;
+      margin: 0 auto;
+      display: block;
+      filter: drop-shadow(0 4px 12px rgba(244, 86, 70, 0.3));
+      animation: logo-shine 3s infinite;
+      border-radius: 8px;
+    }
+
+    .brand-name {
+      text-align: center;
+      font-size: 1.8rem;
+      font-weight: 800;
+      margin-top: 8px;
+      color: #040404;
+      text-shadow: 0 4px 20px rgba(244, 86, 70, 0.3);
+    }
+
+    .verified-badge {
+      width: 150px;
+      height: auto;
+      margin: 8px auto 0;
+      display: block;
+    }
+
+    /* Amount Section */
+    .amount {
+      font-size: 2.2rem;
+      font-weight: 700;
+      text-align: center;
+      color: #f45646;
+      margin: 0;
+      text-shadow: 0 4px 20px rgba(244, 86, 70, 0.3);
+      animation: pulse-scale 2s infinite;
+    }
+
+    .amount-subtitle {
+      text-align: center;
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: #040404;
+      text-shadow: 0 2px 10px rgba(244, 86, 70, 0.3);
+    }
+
+    /* Instructions */
+    .instructions {
+      margin: 16px auto;
+      padding: 16px;
+      background: rgba(244, 86, 70, 0.05);
+      border-radius: 16px;
+      border: 1px solid rgba(244, 86, 70, 0.1);
+    }
+
+    .instruction-item {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      padding: 8px 0;
+      font-size: 0.95rem;
+      color: #2f3033;
+      font-weight: 600;
+    }
+
+    .instruction-number {
+      background: #f45646;
+      color: white;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+      font-weight: 700;
+      box-shadow: 0 2px 8px rgba(0, 214, 48, 0.2);
+      flex-shrink: 0;
+    }
+
+    .instruction-text.underline {
+      text-decoration: underline;
+      text-decoration-color: #f45646;
+      text-decoration-thickness: 2px;
+      text-underline-offset: 2px;
+    }
+
+    /* CTA Button */
+    .cta-button {
+      background: #f45646;
+      color: white;
+      border: none;
+      padding: 16px;
+      border-radius: 20px;
+      font-weight: 800;
+      font-size: 1.1rem;
+      width: 100%;
+      max-width: 400px;
+      cursor: pointer;
+      display: block;
+      margin: 0 auto;
+      box-shadow: 0 10px 30px rgba(244, 86, 70, 0.3), 0 5px 15px rgba(244, 86, 70, 0.2);
+      transition: all 0.3s ease;
+    }
+
+    .cta-button:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 40px rgba(244, 86, 70, 0.4), 0 8px 20px rgba(244, 86, 70, 0.3);
+    }
+
+    .cta-button:active {
+      transform: scale(0.95);
+    }
+
+    .trust-badge {
+      width: 100%;
+      height: auto;
+      margin-top: 8px;
+      border-radius: 12px;
+      opacity: 0.9;
+      transition: opacity 0.3s ease;
+    }
+
+    .trust-badge:hover {
+      opacity: 1;
+    }
+
+    /* Notification Popup */
+    .notification {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      background: rgba(255, 255, 255, 0.95);
+      padding: 16px 20px;
+      border-radius: 12px;
+      box-shadow: 0 8px 32px rgba(244, 86, 70, 0.2);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 14px;
+      color: #2f3033;
+      z-index: 1000;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(244, 86, 70, 0.2);
+      max-width: 320px;
+      width: calc(100% - 2rem);
+      transition: transform 0.3s ease;
+      transform: translateX(-50%) translateY(-150%);
+    }
+
+    .notification.visible {
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .notification-icon {
+      width: 24px;
+      height: 24px;
+      background: #f45646;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 12px;
+      flex-shrink: 0;
+    }
+
+    .notification-content {
+      flex: 1;
+    }
+
+    .notification-title {
+      font-weight: 600;
+      margin-bottom: 2px;
+    }
+
+    .notification-text {
+      color: #666;
+      font-size: 13px;
+    }
+
+    /* Animations */
+    @keyframes float {
+      0%, 100% {
+        transform: translateY(0px);
+      }
+      50% {
+        transform: translateY(-10px);
+      }
+    }
+
+    @keyframes logo-shine {
+      0% {
+        filter: drop-shadow(0 4px 12px rgba(244, 86, 70, 0.3));
+      }
+      50% {
+        filter: drop-shadow(0 8px 20px rgba(244, 86, 70, 0.5));
+      }
+      100% {
+        filter: drop-shadow(0 4px 12px rgba(244, 86, 70, 0.3));
+      }
+    }
+
+    @keyframes pulse-scale {
+      0%, 100% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.05);
+      }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="particles-canvas"></canvas>
+
+  <div class="notification" id="notification">
+    <div class="notification-icon" id="notification-icon"></div>
+    <div class="notification-content">
+      <div class="notification-title" id="notification-title"></div>
+      <div class="notification-text" id="notification-text"></div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="reward-card">
+      <div class="logo-section">
+        <img src="/images/sheinlogo.webp" alt="SHEIN Codes" class="logo-img">
+        <div class="brand-name">SHEIN Codes</div>
+        <img src="/images/verd.webp" alt="Verified by TikTok" class="verified-badge">
+      </div>
+
+      <div class="amount" id="amount">$0.00</div>
+      <div class="amount-subtitle">Instantly sent to you</div>
+
+      <div class="instructions">
+        <div class="instruction-item">
+          <span class="instruction-number">1</span>
+          <span class="instruction-text">Click the Button Below</span>
+        </div>
+        <div class="instruction-item">
+          <span class="instruction-number">2</span>
+          <span class="instruction-text">Enter Your Email & Info</span>
+        </div>
+        <div class="instruction-item">
+          <span class="instruction-number">3</span>
+          <span class="instruction-text underline">Complete <b>at least</b> 3-5 Deals</span>
+        </div>
+        <div class="instruction-item">
+          <span class="instruction-number">4</span>
+          <span class="instruction-text">Claim Reward & Repeat</span>
+        </div>
+      </div>
+
+      <div>
+        <a href="https://t.afftrackr.com/?r3x=bXahuVI7wxvH55u1dt3EqGKnV%2bzvJRr2vQJDRoz7h5U%3d&s1=............" target="_blank" rel="noopener noreferrer" style="text-decoration: none;">
+          <button class="cta-button">Get Your $1000 →</button>
+        </a>
+        <img src="/images/trus2.webp" alt="Trustpilot Excellent Rating" class="trust-badge">
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Amount counter animation
+    (function() {
+      const amountEl = document.getElementById('amount');
+      const duration = 2000;
+      const start = performance.now();
+      const end = 1000;
+
+      function animate(currentTime) {
+        const elapsed = currentTime - start;
+        const progress = Math.min(elapsed / duration, 1);
+        const easeOut = 1 - Math.pow(1 - progress, 3);
+        const currentAmount = easeOut * end;
+        amountEl.textContent = '$' + currentAmount.toFixed(2);
+
+        if (progress < 1) {
+          requestAnimationFrame(animate);
+        }
+      }
+
+      requestAnimationFrame(animate);
+    })();
+
+    // Particles Background
+    (function() {
+      const canvas = document.getElementById('particles-canvas');
+      const ctx = canvas.getContext('2d');
+      let particles = [];
+      let mouse = { x: 0, y: 0 };
+      let animationId;
+
+      function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      }
+
+      function initParticles() {
+        particles = [];
+        const numParticles = 80;
+
+        for (let i = 0; i < numParticles; i++) {
+          particles.push({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height,
+            vx: (Math.random() - 0.5) * 2,
+            vy: (Math.random() - 0.5) * 2,
+            size: Math.random() * 3 + 1,
+            opacity: Math.random() * 0.5 + 0.2
+          });
+        }
+      }
+
+      function drawParticles() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        // Draw connections
+        for (let i = 0; i < particles.length; i++) {
+          for (let j = i + 1; j < particles.length; j++) {
+            const dx = particles[i].x - particles[j].x;
+            const dy = particles[i].y - particles[j].y;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+
+            if (distance < 150) {
+              ctx.beginPath();
+              ctx.strokeStyle = 'rgba(244, 86, 70, ' + (0.4 * (1 - distance / 150)) + ')';
+              ctx.lineWidth = 1;
+              ctx.moveTo(particles[i].x, particles[i].y);
+              ctx.lineTo(particles[j].x, particles[j].y);
+              ctx.stroke();
+            }
+          }
+        }
+
+        // Draw and update particles
+        for (let p of particles) {
+          // Mouse repulsion
+          const dx = p.x - mouse.x;
+          const dy = p.y - mouse.y;
+          const distance = Math.sqrt(dx * dx + dy * dy);
+
+          if (distance < 100 && distance > 0) {
+            const force = (100 - distance) / 100;
+            p.vx += (dx / distance) * force * 0.5;
+            p.vy += (dy / distance) * force * 0.5;
+          }
+
+          // Update position
+          p.x += p.vx;
+          p.y += p.vy;
+
+          // Slow down
+          p.vx *= 0.99;
+          p.vy *= 0.99;
+
+          // Keep base velocity
+          if (Math.abs(p.vx) < 0.5) p.vx = (Math.random() - 0.5) * 2;
+          if (Math.abs(p.vy) < 0.5) p.vy = (Math.random() - 0.5) * 2;
+
+          // Bounce off edges
+          if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
+          if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+
+          // Keep in bounds
+          p.x = Math.max(0, Math.min(canvas.width, p.x));
+          p.y = Math.max(0, Math.min(canvas.height, p.y));
+
+          // Draw particle
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+          ctx.fillStyle = 'rgba(244, 86, 70, ' + p.opacity + ')';
+          ctx.fill();
+        }
+
+        animationId = requestAnimationFrame(drawParticles);
+      }
+
+      window.addEventListener('mousemove', function(e) {
+        mouse.x = e.clientX;
+        mouse.y = e.clientY;
+      });
+
+      window.addEventListener('click', function(e) {
+        for (let i = 0; i < 4; i++) {
+          particles.push({
+            x: e.clientX,
+            y: e.clientY,
+            vx: (Math.random() - 0.5) * 4,
+            vy: (Math.random() - 0.5) * 4,
+            size: Math.random() * 3 + 1,
+            opacity: Math.random() * 0.5 + 0.2
+          });
+        }
+      });
+
+      window.addEventListener('resize', function() {
+        resizeCanvas();
+        initParticles();
+      });
+
+      resizeCanvas();
+      initParticles();
+      drawParticles();
+    })();
+
+    // Notifications
+    (function() {
+      const NAMES = [
+        "Ava R.", "Ethan T.", "Luna W.", "Caleb R.", "Aria K.", "Julian P.", "Piper S.", "Gabriel L.",
+        "Sofia G.", "Alexander T.", "Mia M.", "Logan D.", "Isabella W.", "Benjamin R.", "Charlotte K.",
+        "Oliver P.", "Abigail S.", "Elijah L.", "Emily G.", "William T.", "Harper M.", "Lucas D.",
+        "Amelia W.", "Mason R.", "Evelyn K.", "Liam P.", "Hannah S.", "Noah L.", "Zoe M.", "Jackson B.",
+        "Victoria L.", "Daniel K.", "Madison P.", "Samuel R.", "Grace H.", "Henry W.", "Scarlett F.",
+        "Sebastian M.", "Chloe D.", "Wyatt S.", "Penelope R.", "Owen L.", "Layla K.", "Nathan P.",
+        "Riley S.", "Leo M.", "Hazel G.", "Isaac T."
+      ];
+
+      const NOTIFICATIONS = [
+        { icon: "👥", title: "Active Viewers", text: "12 people are viewing this offer right now" },
+        { icon: "🎉", title: "Recent Claims", text: "3 people claimed their reward in the last 5 minutes" },
+        { icon: "📍", title: "Local Activity", text: "5 people in your city just claimed rewards" },
+        { icon: "🔥", title: "Trending Now", text: "This offer is trending in your area" },
+        { icon: "⭐", title: "Popular Offer", text: "Popular offer - 45 people claimed today" },
+        { icon: "🌍", title: "Nearby Activity", text: "Trending in your area - 8 people nearby just claimed" },
+        { icon: "🎯", title: "Almost There", text: "You're 2 steps away from claiming your reward" },
+        { icon: "⏳", title: "Limited Spots", text: "Only 3 spots left for today's rewards" },
+        { icon: "📊", title: "Reward Status", text: "Reward pool is 89% depleted" },
+        { icon: "⏰", title: "Time Sensitive", text: "Last chance to claim before cards run out" }
+      ];
+
+      const notificationEl = document.getElementById('notification');
+      const iconEl = document.getElementById('notification-icon');
+      const titleEl = document.getElementById('notification-title');
+      const textEl = document.getElementById('notification-text');
+
+      function showNotification() {
+        const isNameNotification = Math.random() > 0.5;
+
+        if (isNameNotification) {
+          const randomName = NAMES[Math.floor(Math.random() * NAMES.length)];
+          iconEl.textContent = "💵";
+          titleEl.textContent = "Recent Claim";
+          textEl.textContent = randomName + " claimed $750!";
+        } else {
+          const randomNotif = NOTIFICATIONS[Math.floor(Math.random() * NOTIFICATIONS.length)];
+          iconEl.textContent = randomNotif.icon;
+          titleEl.textContent = randomNotif.title;
+          textEl.textContent = randomNotif.text;
+        }
+
+        notificationEl.classList.add('visible');
+
+        setTimeout(function() {
+          notificationEl.classList.remove('visible');
+        }, 4000);
+      }
+
+      setTimeout(showNotification, 3000);
+      setInterval(function() {
+        showNotification();
+      }, 8000 + Math.random() * 4000);
+    })();
+  </script>
+</body>
+</html>
