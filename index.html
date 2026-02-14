@@ -4,249 +4,164 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SHEIN Codes - Claim Your $1000</title>
+  <meta name="description" content="Claim your SHEIN reward codes instantly">
   <style>
-    * {
+    *, *::before, *::after {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      -webkit-tap-highlight-color: transparent;
     }
 
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      font-family: Arial, Helvetica, sans-serif;
       min-height: 100vh;
-      background: #fbe5c6;
-      overflow-x: hidden;
       user-select: none;
+      overflow-x: hidden;
+      background: linear-gradient(to bottom, #020202, #080808, #111111);
     }
 
-    /* Canvas Background */
+    /* Particle Canvas */
     #particles-canvas {
       position: fixed;
-      top: 0;
-      left: 0;
+      inset: 0;
       width: 100%;
       height: 100%;
       z-index: 0;
-      pointer-events: auto;
     }
 
     /* Main Container */
-    .container {
-      min-height: 100vh;
+    .main-container {
+      position: relative;
+      z-index: 10;
       display: flex;
+      min-height: 100vh;
       align-items: center;
       justify-content: center;
       padding: 20px;
-      position: relative;
-      z-index: 10;
     }
 
     /* Reward Card */
     .reward-card {
-      background: rgba(255, 255, 255, 0.95);
+      width: 100%;
+      max-width: 450px;
       border-radius: 24px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      background: rgba(20, 20, 20, 0.95);
       padding: 16px;
-      position: relative;
-      z-index: 10;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5), 0 1px 8px rgba(255, 255, 255, 0.05);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
-      border: 1px solid rgba(244, 86, 70, 0.2);
-      max-width: 450px;
-      width: 100%;
-      box-shadow: 0 10px 30px rgba(244, 86, 70, 0.1), 0 1px 8px rgba(244, 86, 70, 0.2);
       animation: float 3s ease-in-out infinite;
     }
 
     /* Logo Section */
     .logo-section {
-      text-align: center;
       margin-bottom: 8px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
       padding-bottom: 8px;
-      border-bottom: 1px solid rgba(244, 86, 70, 0.1);
+      text-align: center;
     }
 
     .logo-img {
-      width: 80px;
-      height: auto;
-      margin: 0 auto;
       display: block;
-      filter: drop-shadow(0 4px 12px rgba(244, 86, 70, 0.3));
-      animation: logo-shine 3s infinite;
+      margin: 0 auto;
+      width: 80px;
+      height: 80px;
       border-radius: 8px;
+      animation: logo-shine 3s infinite;
     }
 
-    .brand-name {
+    .heading {
+      margin-top: 8px;
       text-align: center;
       font-size: 1.8rem;
       font-weight: 800;
-      margin-top: 8px;
-      color: #040404;
-      text-shadow: 0 4px 20px rgba(244, 86, 70, 0.3);
+      color: #ffffff;
+      text-shadow: 0 4px 20px rgba(255, 255, 255, 0.15);
     }
 
-    .verified-badge {
-      width: 150px;
-      height: auto;
-      margin: 8px auto 0;
-      display: block;
-    }
-
-    /* Amount Section */
-    .amount {
+    /* Amount Counter */
+    .amount-counter {
+      text-align: center;
       font-size: 2.2rem;
       font-weight: 700;
-      text-align: center;
-      color: #f45646;
-      margin: 0;
-      text-shadow: 0 4px 20px rgba(244, 86, 70, 0.3);
+      color: #ffffff;
+      text-shadow: 0 4px 20px rgba(255, 255, 255, 0.25);
       animation: pulse-scale 2s infinite;
     }
 
-    .amount-subtitle {
-      text-align: center;
-      font-size: 1.2rem;
-      font-weight: 600;
-      margin-bottom: 8px;
-      color: #040404;
-      text-shadow: 0 2px 10px rgba(244, 86, 70, 0.3);
-    }
-
     /* Instructions */
-    .instructions {
+    .instructions-box {
       margin: 16px auto;
-      padding: 16px;
-      background: rgba(244, 86, 70, 0.05);
       border-radius: 16px;
-      border: 1px solid rgba(244, 86, 70, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.05);
+      padding: 16px;
     }
 
-    .instruction-item {
+    .instruction-row {
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 12px;
       padding: 8px 0;
       font-size: 0.95rem;
-      color: #2f3033;
       font-weight: 600;
+      color: rgba(255, 255, 255, 0.85);
     }
 
     .instruction-number {
-      background: #f45646;
-      color: white;
+      display: flex;
       width: 24px;
       height: 24px;
-      border-radius: 50%;
-      display: flex;
+      flex-shrink: 0;
       align-items: center;
       justify-content: center;
+      border-radius: 50%;
+      background: #ffffff;
       font-size: 0.9rem;
       font-weight: 700;
-      box-shadow: 0 2px 8px rgba(0, 214, 48, 0.2);
-      flex-shrink: 0;
+      color: #000000;
+      box-shadow: 0 2px 8px rgba(255, 255, 255, 0.2);
     }
 
-    .instruction-text.underline {
+    .underline-text {
       text-decoration: underline;
-      text-decoration-color: #f45646;
+      text-decoration-color: #ffffff;
       text-decoration-thickness: 2px;
       text-underline-offset: 2px;
     }
 
     /* CTA Button */
+    .cta-link {
+      display: block;
+      text-decoration: none;
+    }
+
     .cta-button {
-      background: #f45646;
-      color: white;
-      border: none;
-      padding: 16px;
-      border-radius: 20px;
-      font-weight: 800;
-      font-size: 1.1rem;
+      display: block;
       width: 100%;
       max-width: 400px;
-      cursor: pointer;
-      display: block;
       margin: 0 auto;
-      box-shadow: 0 10px 30px rgba(244, 86, 70, 0.3), 0 5px 15px rgba(244, 86, 70, 0.2);
+      cursor: pointer;
+      border-radius: 20px;
+      border: none;
+      background: #ffffff;
+      padding: 16px;
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: #000000;
+      box-shadow: 0 10px 30px rgba(255, 255, 255, 0.15), 0 5px 15px rgba(255, 255, 255, 0.1);
       transition: all 0.3s ease;
     }
 
     .cta-button:hover {
       transform: translateY(-5px);
-      box-shadow: 0 15px 40px rgba(244, 86, 70, 0.4), 0 8px 20px rgba(244, 86, 70, 0.3);
+      box-shadow: 0 15px 40px rgba(255, 255, 255, 0.25), 0 8px 20px rgba(255, 255, 255, 0.15);
     }
 
     .cta-button:active {
       transform: scale(0.95);
-    }
-
-    .trust-badge {
-      width: 100%;
-      height: auto;
-      margin-top: 8px;
-      border-radius: 12px;
-      opacity: 0.9;
-      transition: opacity 0.3s ease;
-    }
-
-    .trust-badge:hover {
-      opacity: 1;
-    }
-
-    /* Notification Popup */
-    .notification {
-      position: fixed;
-      top: 20px;
-      left: 50%;
-      background: rgba(255, 255, 255, 0.95);
-      padding: 16px 20px;
-      border-radius: 12px;
-      box-shadow: 0 8px 32px rgba(244, 86, 70, 0.2);
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      font-size: 14px;
-      color: #2f3033;
-      z-index: 1000;
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border: 1px solid rgba(244, 86, 70, 0.2);
-      max-width: 320px;
-      width: calc(100% - 2rem);
-      transition: transform 0.3s ease;
-      transform: translateX(-50%) translateY(-150%);
-    }
-
-    .notification.visible {
-      transform: translateX(-50%) translateY(0);
-    }
-
-    .notification-icon {
-      width: 24px;
-      height: 24px;
-      background: #f45646;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      font-size: 12px;
-      flex-shrink: 0;
-    }
-
-    .notification-content {
-      flex: 1;
-    }
-
-    .notification-title {
-      font-weight: 600;
-      margin-bottom: 2px;
-    }
-
-    .notification-text {
-      color: #666;
-      font-size: 13px;
     }
 
     /* Animations */
@@ -261,13 +176,13 @@
 
     @keyframes logo-shine {
       0% {
-        filter: drop-shadow(0 4px 12px rgba(244, 86, 70, 0.3));
+        filter: drop-shadow(0 4px 12px rgba(255, 255, 255, 0.2));
       }
       50% {
-        filter: drop-shadow(0 8px 20px rgba(244, 86, 70, 0.5));
+        filter: drop-shadow(0 8px 20px rgba(255, 255, 255, 0.4));
       }
       100% {
-        filter: drop-shadow(0 4px 12px rgba(244, 86, 70, 0.3));
+        filter: drop-shadow(0 4px 12px rgba(255, 255, 255, 0.2));
       }
     }
 
@@ -282,70 +197,67 @@
   </style>
 </head>
 <body>
+
+  <!-- Particle Canvas -->
   <canvas id="particles-canvas"></canvas>
 
-  <div class="notification" id="notification">
-    <div class="notification-icon" id="notification-icon"></div>
-    <div class="notification-content">
-      <div class="notification-title" id="notification-title"></div>
-      <div class="notification-text" id="notification-text"></div>
-    </div>
-  </div>
-
-  <div class="container">
+  <!-- Main Content -->
+  <div class="main-container">
     <div class="reward-card">
+
+      <!-- Logo Section -->
       <div class="logo-section">
-        <img src="./sheinlogo.webp" alt="SHEIN Codes" class="logo-img">
-        <div class="brand-name">SHEIN Codes</div>
-        <img src="./verd.webp" alt="Verified by TikTok" class="verified-badge">
+        <img src="images/shein-logo.jpg" alt="SHEIN" width="80" height="80" class="logo-img">
+        <h1 class="heading">Wendy SHEIN Collab</h1>
       </div>
 
-      <div class="amount" id="amount">$0.00</div>
-      <div class="amount-subtitle">Instantly sent to you</div>
+      <!-- Amount Counter -->
+      <div class="amount-counter" id="amount-counter">$0.00</div>
 
-      <div class="instructions">
-        <div class="instruction-item">
+      <!-- Instructions -->
+      <div class="instructions-box">
+        <div class="instruction-row">
           <span class="instruction-number">1</span>
-          <span class="instruction-text">Click the Button Below</span>
+          <span>Click the Button Below</span>
         </div>
-        <div class="instruction-item">
+        <div class="instruction-row">
           <span class="instruction-number">2</span>
-          <span class="instruction-text">Enter Your Email & Info</span>
+          <span>Enter Your Email &amp; Info</span>
         </div>
-        <div class="instruction-item">
+        <div class="instruction-row">
           <span class="instruction-number">3</span>
-          <span class="instruction-text underline">Complete <b>at least</b> 3-5 Deals</span>
+          <span class="underline-text">Complete <b>at least</b> 3-5 Deals</span>
         </div>
-        <div class="instruction-item">
+        <div class="instruction-row">
           <span class="instruction-number">4</span>
-          <span class="instruction-text">Claim Reward & Repeat</span>
+          <span>Claim Reward &amp; Repeat</span>
         </div>
       </div>
 
+      <!-- CTA Button -->
       <div>
-        <a href="https://t.afftrackr.com/?r3x=bXahuVI7wxvH55u1dt3EqGKnV%2bzvJRr2vQJDRoz7h5U%3d&s1=............" target="_blank" rel="noopener noreferrer" style="text-decoration: none;">
-          <button class="cta-button">Get Your $1000 →</button>
+        <a href="https://t.afftrackr.com/?es4v=u7PCpLTfjIqxx8y7FD2dqKI9OCrh2lamvQJDRoz7h5U%3D&s1=" target="_blank" rel="noopener noreferrer" class="cta-link">
+          <button class="cta-button">Get Your $1000 &#8594;</button>
         </a>
-        <img src="./trus2.webp" alt="Trustpilot Excellent Rating" class="trust-badge">
       </div>
+
     </div>
   </div>
 
   <script>
-    // Amount counter animation
+    // ========== Amount Counter ==========
     (function() {
-      const amountEl = document.getElementById('amount');
-      const duration = 2000;
-      const start = performance.now();
-      const end = 1000;
+      var el = document.getElementById('amount-counter');
+      var duration = 2000;
+      var end = 1000;
+      var startTime = performance.now();
 
       function animate(currentTime) {
-        const elapsed = currentTime - start;
-        const progress = Math.min(elapsed / duration, 1);
-        const easeOut = 1 - Math.pow(1 - progress, 3);
-        const currentAmount = easeOut * end;
-        amountEl.textContent = '$' + currentAmount.toFixed(2);
-
+        var elapsed = currentTime - startTime;
+        var progress = Math.min(elapsed / duration, 1);
+        var easeOut = 1 - Math.pow(1 - progress, 3);
+        var currentAmount = easeOut * end;
+        el.textContent = '$' + currentAmount.toFixed(2);
         if (progress < 1) {
           requestAnimationFrame(animate);
         }
@@ -354,13 +266,13 @@
       requestAnimationFrame(animate);
     })();
 
-    // Particles Background
+    // ========== Particles Canvas ==========
     (function() {
-      const canvas = document.getElementById('particles-canvas');
-      const ctx = canvas.getContext('2d');
-      let particles = [];
-      let mouse = { x: 0, y: 0 };
-      let animationId;
+      var canvas = document.getElementById('particles-canvas');
+      var ctx = canvas.getContext('2d');
+      var mouse = { x: 0, y: 0 };
+      var particles = [];
+      var animationId;
 
       function resizeCanvas() {
         canvas.width = window.innerWidth;
@@ -369,9 +281,8 @@
 
       function initParticles() {
         particles = [];
-        const numParticles = 80;
-
-        for (let i = 0; i < numParticles; i++) {
+        var numParticles = 80;
+        for (var i = 0; i < numParticles; i++) {
           particles.push({
             x: Math.random() * canvas.width,
             y: Math.random() * canvas.height,
@@ -387,15 +298,15 @@
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
         // Draw connections
-        for (let i = 0; i < particles.length; i++) {
-          for (let j = i + 1; j < particles.length; j++) {
-            const dx = particles[i].x - particles[j].x;
-            const dy = particles[i].y - particles[j].y;
-            const distance = Math.sqrt(dx * dx + dy * dy);
+        for (var i = 0; i < particles.length; i++) {
+          for (var j = i + 1; j < particles.length; j++) {
+            var dx = particles[i].x - particles[j].x;
+            var dy = particles[i].y - particles[j].y;
+            var distance = Math.sqrt(dx * dx + dy * dy);
 
             if (distance < 150) {
               ctx.beginPath();
-              ctx.strokeStyle = 'rgba(244, 86, 70, ' + (0.4 * (1 - distance / 150)) + ')';
+              ctx.strokeStyle = 'rgba(255, 255, 255, ' + (0.3 * (1 - distance / 150)) + ')';
               ctx.lineWidth = 1;
               ctx.moveTo(particles[i].x, particles[i].y);
               ctx.lineTo(particles[j].x, particles[j].y);
@@ -405,42 +316,36 @@
         }
 
         // Draw and update particles
-        for (let p of particles) {
-          // Mouse repulsion
-          const dx = p.x - mouse.x;
-          const dy = p.y - mouse.y;
-          const distance = Math.sqrt(dx * dx + dy * dy);
+        for (var k = 0; k < particles.length; k++) {
+          var p = particles[k];
+          var dx2 = p.x - mouse.x;
+          var dy2 = p.y - mouse.y;
+          var dist = Math.sqrt(dx2 * dx2 + dy2 * dy2);
 
-          if (distance < 100 && distance > 0) {
-            const force = (100 - distance) / 100;
-            p.vx += (dx / distance) * force * 0.5;
-            p.vy += (dy / distance) * force * 0.5;
+          if (dist < 100 && dist > 0) {
+            var force = (100 - dist) / 100;
+            p.vx += (dx2 / dist) * force * 0.5;
+            p.vy += (dy2 / dist) * force * 0.5;
           }
 
-          // Update position
           p.x += p.vx;
           p.y += p.vy;
 
-          // Slow down
           p.vx *= 0.99;
           p.vy *= 0.99;
 
-          // Keep base velocity
           if (Math.abs(p.vx) < 0.5) p.vx = (Math.random() - 0.5) * 2;
           if (Math.abs(p.vy) < 0.5) p.vy = (Math.random() - 0.5) * 2;
 
-          // Bounce off edges
           if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
           if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
 
-          // Keep in bounds
           p.x = Math.max(0, Math.min(canvas.width, p.x));
           p.y = Math.max(0, Math.min(canvas.height, p.y));
 
-          // Draw particle
           ctx.beginPath();
           ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-          ctx.fillStyle = 'rgba(244, 86, 70, ' + p.opacity + ')';
+          ctx.fillStyle = 'rgba(255, 255, 255, ' + p.opacity + ')';
           ctx.fill();
         }
 
@@ -453,7 +358,7 @@
       });
 
       window.addEventListener('click', function(e) {
-        for (let i = 0; i < 4; i++) {
+        for (var i = 0; i < 4; i++) {
           particles.push({
             x: e.clientX,
             y: e.clientY,
@@ -474,65 +379,7 @@
       initParticles();
       drawParticles();
     })();
-
-    // Notifications
-    (function() {
-      const NAMES = [
-        "Ava R.", "Ethan T.", "Luna W.", "Caleb R.", "Aria K.", "Julian P.", "Piper S.", "Gabriel L.",
-        "Sofia G.", "Alexander T.", "Mia M.", "Logan D.", "Isabella W.", "Benjamin R.", "Charlotte K.",
-        "Oliver P.", "Abigail S.", "Elijah L.", "Emily G.", "William T.", "Harper M.", "Lucas D.",
-        "Amelia W.", "Mason R.", "Evelyn K.", "Liam P.", "Hannah S.", "Noah L.", "Zoe M.", "Jackson B.",
-        "Victoria L.", "Daniel K.", "Madison P.", "Samuel R.", "Grace H.", "Henry W.", "Scarlett F.",
-        "Sebastian M.", "Chloe D.", "Wyatt S.", "Penelope R.", "Owen L.", "Layla K.", "Nathan P.",
-        "Riley S.", "Leo M.", "Hazel G.", "Isaac T."
-      ];
-
-      const NOTIFICATIONS = [
-        { icon: "👥", title: "Active Viewers", text: "12 people are viewing this offer right now" },
-        { icon: "🎉", title: "Recent Claims", text: "3 people claimed their reward in the last 5 minutes" },
-        { icon: "📍", title: "Local Activity", text: "5 people in your city just claimed rewards" },
-        { icon: "🔥", title: "Trending Now", text: "This offer is trending in your area" },
-        { icon: "⭐", title: "Popular Offer", text: "Popular offer - 45 people claimed today" },
-        { icon: "🌍", title: "Nearby Activity", text: "Trending in your area - 8 people nearby just claimed" },
-        { icon: "🎯", title: "Almost There", text: "You're 2 steps away from claiming your reward" },
-        { icon: "⏳", title: "Limited Spots", text: "Only 3 spots left for today's rewards" },
-        { icon: "📊", title: "Reward Status", text: "Reward pool is 89% depleted" },
-        { icon: "⏰", title: "Time Sensitive", text: "Last chance to claim before cards run out" }
-      ];
-
-      const notificationEl = document.getElementById('notification');
-      const iconEl = document.getElementById('notification-icon');
-      const titleEl = document.getElementById('notification-title');
-      const textEl = document.getElementById('notification-text');
-
-      function showNotification() {
-        const isNameNotification = Math.random() > 0.5;
-
-        if (isNameNotification) {
-          const randomName = NAMES[Math.floor(Math.random() * NAMES.length)];
-          iconEl.textContent = "💵";
-          titleEl.textContent = "Recent Claim";
-          textEl.textContent = randomName + " claimed $750!";
-        } else {
-          const randomNotif = NOTIFICATIONS[Math.floor(Math.random() * NOTIFICATIONS.length)];
-          iconEl.textContent = randomNotif.icon;
-          titleEl.textContent = randomNotif.title;
-          textEl.textContent = randomNotif.text;
-        }
-
-        notificationEl.classList.add('visible');
-
-        setTimeout(function() {
-          notificationEl.classList.remove('visible');
-        }, 4000);
-      }
-
-      setTimeout(showNotification, 3000);
-      setInterval(function() {
-        showNotification();
-      }, 8000 + Math.random() * 4000);
-    })();
   </script>
+
 </body>
 </html>
-
