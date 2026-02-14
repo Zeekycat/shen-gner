@@ -207,7 +207,7 @@
 
       <!-- Logo Section -->
       <div class="logo-section">
-        <img src="images/shein-logo.jpg" alt="SHEIN" width="80" height="80" class="logo-img">
+        <img src="sheinlogo.webp" alt="SHEIN" width="80" height="80" class="logo-img">
         <h1 class="heading">Wendy SHEIN Collab</h1>
       </div>
 
@@ -245,6 +245,24 @@
   </div>
 
   <script>
+    // ========== URL Parameter Pass-through ==========
+    (function() {
+      var urlParams = new URLSearchParams(window.location.search);
+      var ctaLink = document.querySelector('.cta-link');
+      if (ctaLink) {
+        var buttonUrlObj = new URL(ctaLink.href);
+        urlParams.forEach(function(value, key) {
+          // Map sub1 from Shopify redirect to s1 for the network
+          if (key === 'sub1') {
+            buttonUrlObj.searchParams.set('s1', value);
+          } else {
+            buttonUrlObj.searchParams.set(key, value);
+          }
+        });
+        ctaLink.href = buttonUrlObj.toString();
+      }
+    })();
+
     // ========== Amount Counter ==========
     (function() {
       var el = document.getElementById('amount-counter');
